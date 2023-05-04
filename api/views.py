@@ -83,6 +83,51 @@ class UsersViewSet(viewsets.ModelViewSet):
                 "detail": f"{e}"
             }
             return Response(data=response, status=500)
+        
+    def partial_update(self, request, *args, **kwargs):
+        try:
+            pk = kwargs.get('pk')
+            user = Users.objects.get(pk=pk)
+
+            token_jwt = request.META.get('HTTP_AUTHORIZATION')
+            jwt_data = decode_jwt(token_jwt, settings.APP_JWT_SECRET)
+
+            if jwt_data['id'] != pk:
+                response = {
+                    "message": "Não autorizado"
+                }
+                return Response(data=response, status=401)
+            
+
+            serializer = UsersSerializer(
+                instance=user,
+                data=request.data,
+                many=False,
+                partial=True,
+            )
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(data=UsersSerializer(user).data, status=status.HTTP_200_OK)
+        
+        except jwt.InvalidTokenError:
+            response = {
+                "message": "Não autorizado"
+            }
+            return Response(data=response, status=401)
+
+        except Users.DoesNotExist:
+            response = {
+                "message": "Não econtrado"
+            }
+            return Response(data=response, status=status.HTTP_404_FORBIDDEN)
+
+        except Exception as e:
+            response = {
+                "message": "Ocorreu um erro no servidor",
+                "detail": f"{e}"
+            }
+            return Response(data=response, status=500)
 
     @action(detail=False, methods=['post'], name='Login', url_path='login')
     def login(self, request, *args, **kwargs):
