@@ -14,7 +14,9 @@ class UsersSerializer(serializers.ModelSerializer):
 
     def get_access_token(self, obj):
         if (self.context.get('get_jwt', False)):
-            payload = { 'id': str(obj.id), 'type': 'p' }
+            payload = { 'id': str(obj.id), 'type': 'user' }
             return encode_jwt(payload, settings.APP_JWT_SECRET, expires_in = 21600)
         else:
             return None
+
+
