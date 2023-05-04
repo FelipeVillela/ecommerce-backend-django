@@ -134,13 +134,13 @@ class UsersViewSet(viewsets.ModelViewSet):
         try:
             message_invalid_credentials = "Login ou senha inválidos. Revise as informações."
 
-            player = Users.objects.get(email__exact=request.data['email'].lower().strip())
+            user = Users.objects.get(email__exact=request.data['email'].lower().strip())
 
-            if check_password(request.data['password'], player.password):
+            if check_password(request.data['password'], user.password):
 
-                player_data = UsersSerializer(player, context={'get_jwt': True}).data
+                user_data = UsersSerializer(user, context={'get_jwt': True}).data
 
-                return Response(data=player_data, status=status.HTTP_200_OK)
+                return Response(data=user_data, status=status.HTTP_200_OK)
             else:
                 response = {
                     "message": message_invalid_credentials
