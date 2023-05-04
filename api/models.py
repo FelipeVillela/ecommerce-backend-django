@@ -14,7 +14,4 @@ class Users(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
 
-    def save(self, *args, **kwargs):
-        self.password = make_password(self.password, hasher='md5')
-        super().save(*args, **kwargs)
 
