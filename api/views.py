@@ -45,7 +45,7 @@ class UsersViewSet(viewsets.ModelViewSet):
 
             if check_password(request.data['password'], player.password):
 
-                player_data = UsersSerializer(player).data
+                player_data = UsersSerializer(player, context={'get_jwt': True}).data
 
                 return Response(data=player_data, status=status.HTTP_200_OK)
             else:

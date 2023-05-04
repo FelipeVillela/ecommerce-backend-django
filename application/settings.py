@@ -145,3 +145,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Vairáveis de ambiente
+
+APP_JWT_SECRET='B!K<wGGnk&Lt!I9O'
+
