@@ -13,6 +13,7 @@ import jwt
 class UsersViewSet(viewsets.ModelViewSet):
     queryset = Users.objects.all()
     serializer_class = UsersSerializer
+    http_method_names = ['get', 'options', 'head', 'post', 'update', ]
 
     def create(self, request, *args, **kwargs):
         try:
