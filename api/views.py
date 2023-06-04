@@ -3,7 +3,7 @@ from django.contrib.auth.hashers import check_password, make_password
 from django.conf import settings
 from rest_framework import viewsets, status
 from rest_framework.response import Response
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from .models import Users
 from .serializers import UsersSerializer
 from application.utils import decode_jwt
@@ -13,7 +13,7 @@ import jwt
 class UsersViewSet(viewsets.ModelViewSet):
     queryset = Users.objects.all()
     serializer_class = UsersSerializer
-    http_method_names = ['get', 'options', 'head', 'post', 'update', ]
+    http_method_names = ['get', 'options', 'head', 'post', 'put', 'patch']
 
     def create(self, request, *args, **kwargs):
         try:
