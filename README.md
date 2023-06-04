@@ -1,4 +1,4 @@
-# ecommerce-backend-django
+# Ecommerce Django
 Projeto criado para estudos. Servidor para um ecommerce utilizando django rest framework
 
 ## Utilização
