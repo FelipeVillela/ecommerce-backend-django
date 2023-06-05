@@ -37,8 +37,6 @@ class UsersViewSetTest(TestCase):
 
         response = self.client.post(url, body)
 
-        self.user_data = response.json()
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
     
     def test_api_list_users(self):
@@ -66,7 +64,7 @@ class UsersViewSetTest(TestCase):
 
         response = self.client.post(url, body)
 
-        self.assertAlmostEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_api_user_login_invalid_password(self):
         url = reverse('api:users-login')
@@ -77,18 +75,18 @@ class UsersViewSetTest(TestCase):
 
         response = self.client.post(url, body)
 
-        self.assertAlmostEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_api_user_login_users_does_not_exists(self):
         url = reverse('api:users-login')
         body = {
-            'email': 'not_existant_user@email.com',
+            'email': 'nonexistent_user@email.com',
             'password': self.default_user_pass,
         }
 
         response = self.client.post(url, body)
 
-        self.assertAlmostEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_api_update_user(self):
         url = reverse('api:users-detail', kwargs={'pk': self.user_data.pk})
@@ -101,9 +99,9 @@ class UsersViewSetTest(TestCase):
             'Authorization': self.access_token
         }
         body = {
-            'email': f'update{self.user_data.email}',
-            'name': f'{self.user_data.name} Update',
-            'birth_date': '2000-01-31',
+            'email': f'updated@email.com',
+            'name': f'Updated Name',
+            'birth_date': '2000-01-01',
         }
         response = self.client.put(url, data=body, headers=headers, content_type='application/json')
         
@@ -130,3 +128,13 @@ class UsersViewSetTest(TestCase):
         updated_user = Users.objects.get(pk=self.user_data.pk)
         self.assertEqual(updated_user.name, body['name'])
 
+    def test_api_delete_user(self):
+        url = reverse('api:users-detail', kwargs={'pk': self.user_data.pk})
+        headers = {
+            'Authorization': self.access_token
+        }
+        response = self.client.delete(url, headers=headers, content_type='application/json')
+        
+        # Por enquanto método delete não está implementado
+        self.assertEqual(response.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+    
