@@ -5,8 +5,9 @@ from django.contrib.auth.hashers import make_password
 from rest_framework import status
 from api.models import Users
 from application.utils import encode_jwt
+from .tests_users_base import UsersTestBase
 
-class UsersViewSetTest(TestCase):
+class UsersViewSetTest(UsersTestBase):
     # Teste para a user viewset
     default_user_email = 'test@email.com'
     default_user_pass = 'pass'
