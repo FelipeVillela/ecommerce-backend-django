@@ -1,4 +1,4 @@
-# Ecommerce Django
+# Ecommerce Django (Work in progress)
 Projeto criado para estudos. Servidor para um ecommerce utilizando django rest framework
 
 ## Utilização
